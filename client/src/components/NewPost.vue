@@ -37,7 +37,7 @@ async function createPost() {
 </script>
 
 <template>
-    <form @submit.prevent="createPost" class="newpost-form">
+    <form @submit.prevent="createPost(), $emit('newpost')" class="newpost-form">
         <label class="input-label">Name</label>
         <input class="author" v-model="author">
         <label class="input-label">Content</label>
@@ -51,21 +51,28 @@ form {
     width: 500px;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
+    background-color: var(--compass-blue);
+    border-radius: 5px;
     padding: 20px;
 }
 
 .input-label {
     margin-bottom: 5px;
+    color: white;
 }
 
 input {
     padding: 10px;
     margin-bottom: 20px;
     font-size: 16px;
+    border: none;
+    border-radius: 5px;
 }
 
 .submit-btn {
     padding: 10px 0px;
+    border: none;
+    border-radius: 3px;
+    margin: 0px 0px 10px;
 }
 </style>
