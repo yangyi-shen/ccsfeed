@@ -2,7 +2,7 @@
 
 <template>
     <header>
-        <h1 class="logo">css<span class="blue-text">feed</span></h1>
+        <h1 class="logo">🧭 css<span class="blue-text">feed</span></h1>
     </header>
 </template>
 
