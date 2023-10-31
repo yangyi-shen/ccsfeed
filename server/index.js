@@ -4,6 +4,9 @@ const sqlite3 = require('sqlite3')
 const app = express()
 const PORT = 6900
 
+// sqlite database
+let db = new sqlite3.Database('./ccsfeed.db')
+
 // allow http requests from any source
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -20,6 +23,8 @@ app.get('/', (req, res) => {
 })
 
 app.get('/feed', (req, res) => {
+    // make sure database is open
+    let db = new sqlite3.Database('./ccsfeed.db')
     db.all('SELECT * FROM posts', [], (err, rows) => {
         if (err) {
             console.error(err)
