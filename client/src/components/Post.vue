@@ -16,6 +16,7 @@ defineProps({
 
 <style scoped>
 .post {
+    width: 600px;
     background: rgb(228, 228, 228);
     border-radius: 5px;
     padding: 10px;
