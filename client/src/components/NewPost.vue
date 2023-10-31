@@ -54,6 +54,7 @@ form {
     background-color: var(--compass-blue);
     border-radius: 5px;
     padding: 20px;
+    margin-bottom: 30px;
 }
 
 .input-label {
