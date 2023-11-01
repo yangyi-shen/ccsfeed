@@ -1,15 +1,28 @@
 <script setup>
-defineProps({
+const props = defineProps({
     author: String,
     content: String,
     timestamp: String
 })
+
+// formate timestamp into easily readable format
+const date = new Date(props.timestamp)
+const options = { 
+  weekday: 'long', 
+  year: 'numeric', 
+  month: 'long', 
+  day: 'numeric', 
+  hour: '2-digit', 
+  minute: '2-digit',
+  hour12: true
+};
+const formattedTime = date.toLocaleString('en-US', options);
 </script>
 
 <template>
     <div class="post">
         <p class="author">{{ author }}</p>
-        <p class="timestamp">{{ timestamp }}</p>
+        <p class="timestamp">{{ formattedTime }}</p>
         <p class="content">{{ content }}</p>
     </div>
 </template>
