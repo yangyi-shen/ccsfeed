@@ -1,5 +1,5 @@
 const express = require('express')
-const mongodb = require('mongodb')
+const mongoose = require('mongoose');
 
 // config environment variables
 require('dotenv').config();
@@ -8,11 +8,16 @@ const app = express()
 const PORT = 6900
 
 // connect to mongodb
-const uri = process.env.MONGODB_URI
-const client = new mongodb.MongoClient(uri, {
-    serverApi: '1'
+const URI = process.env.MONGODB_URI
+mongoose.connect(URI)
+
+const postSchema = new mongoose.Schema({
+    author: String,
+    content: String,
+    timestamp: Date,
 })
-client.connect()
+
+const Post = mongoose.model('Post', postSchema)
 
 // allow http requests from any source
 app.use((req, res, next) => {
@@ -31,14 +36,7 @@ app.get('/', (req, res) => {
 
 app.get('/feed', async (req, res) => {
     try {
-        // make sure database is open
-        await client.connect()
-
-        // select posts database
-        const db = client.db('ccsfeed');
-        const posts = db.collection('posts')
-
-        const feed = await posts.find({}).toArray()
+        const feed = await Post.find({})
 
         res.json({
             success: true,
@@ -54,24 +52,19 @@ app.get('/feed', async (req, res) => {
 
 app.post('/newpost', async (req, res) => {
     try {
-        // make sure database is open
-        await client.connect()
-
-        // select posts database
-        const db = client.db('ccsfeed');
-        const posts = db.collection('posts')
-
         const author = req.body.author
         const content = req.body.content
         const timestamp = req.body.timestamp
 
-        const post = {
+        // create post object using parameters
+        const post = new Post({
             author: author,
             content: content,
             timestamp: new Date(timestamp)
-        }
+        })
 
-        await posts.insertOne(post)
+        // save post into database
+        await post.save()
 
         res.json({
             success: true
@@ -89,5 +82,5 @@ app.listen(PORT, () => {
 })
 
 process.on('exit', () => {
-    client.close();
+    mongoose.connection.close()
 })
