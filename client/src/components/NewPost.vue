@@ -6,29 +6,11 @@ import { ref } from 'vue'
 const author = ref()
 const content = ref()
 
-function getTimestamp() {
-  const now = new Date();
-
-  const options = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: true,
-  };
-
-  return now.toLocaleString('en-US', options);
-}
-
 async function createPost() {
-    const timestamp = getTimestamp()
-
     const response = await axios.post('http://localhost:6900/newpost', {
         author: author.value,
         content: content.value,
-        timestamp: timestamp
+        timestamp: new Date()
     })
     console.log(response)
 
