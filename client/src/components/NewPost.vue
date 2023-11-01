@@ -7,7 +7,7 @@ const author = ref()
 const content = ref()
 
 async function createPost() {
-    const response = await axios.post('http://localhost:6900/newpost', {
+    const response = await axios.post('https://ccsfeed-server.vercel.app/newpost', {
         author: author.value,
         content: content.value,
         timestamp: new Date()

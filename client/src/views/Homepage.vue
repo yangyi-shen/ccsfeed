@@ -9,7 +9,7 @@ import { ref } from 'vue'
 const feed = ref()
 
 async function getFeed() {
-    const response = await axios.get('http://localhost:6900/feed')
+    const response = await axios.get('https:/ccsfeed-server.vercel.app/feed')
 
     feed.value = response.data.feed.reverse()
 }
