@@ -36,7 +36,7 @@ app.get('/feed', async (req, res) => {
 
         // select posts database
         const db = client.db('ccsfeed');
-        const posts = db.collection('posts');
+        const posts = db.collection('posts-notime')
 
         const feed = await posts.find({}).toArray()
 
@@ -59,7 +59,7 @@ app.post('/newpost', async (req, res) => {
 
         // select posts database
         const db = client.db('ccsfeed');
-        const posts = db.collection('posts');
+        const posts = db.collection('posts-notime')
 
         const author = req.body.author
         const content = req.body.content
