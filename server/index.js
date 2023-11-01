@@ -1,11 +1,18 @@
 const express = require('express')
-const sqlite3 = require('sqlite3')
+const mongodb = require('mongodb')
+
+// config environment variables
+require('dotenv').config();
 
 const app = express()
 const PORT = 6900
 
-// sqlite database
-let db = new sqlite3.Database('./ccsfeed.db')
+// connect to mongodb
+const uri = process.env.MONGODB_URI
+const client = new mongodb.MongoClient(uri, {
+    serverApi: '1'
+})
+client.connect()
 
 // allow http requests from any source
 app.use((req, res, next) => {
@@ -22,49 +29,65 @@ app.get('/', (req, res) => {
     res.send('Welcome to the backend for cssfeed!')
 })
 
-app.get('/feed', (req, res) => {
-    // make sure database is open
-    let db = new sqlite3.Database('./ccsfeed.db')
-    db.all('SELECT * FROM posts', [], (err, rows) => {
-        if (err) {
-            console.error(err)
-            res.json({
-                success: false
-            })
-        } else {
-            res.json({
-                success: true,
-                feed: rows
-            })
-        }
-    })
+app.get('/feed', async (req, res) => {
+    try {
+        // make sure database is open
+        await client.connect()
+
+        // select posts database
+        const db = client.db('ccsfeed');
+        const posts = db.collection('posts');
+
+        const feed = await posts.find({}).toArray()
+
+        res.json({
+            success: true,
+            feed: feed
+        })
+    } catch (err) {
+        console.error(err)
+        res.json({
+            success: false
+        })
+    }
 })
 
-app.post('/newpost', (req, res) => {
-    // make sure database is open
-    let db = new sqlite3.Database('./ccsfeed.db')
+app.post('/newpost', async (req, res) => {
+    try {
+        // make sure database is open
+        await client.connect()
 
-    const author = req.body.author
-    const content = req.body.content
-    const timestamp = req.body.timestamp
+        // select posts database
+        const db = client.db('ccsfeed');
+        const posts = db.collection('posts');
 
-    db.run('INSERT INTO posts(author, content, timestamp) VALUES(?, ?, ?)', [author, content, timestamp], (err) => {
-        if (err) {
-            console.error(err)
-            res.json({
-                success: false
-            })
-        } else {
-            res.json({
-                success: true
-            })
+        const author = req.body.author
+        const content = req.body.content
+        const timestamp = req.body.timestamp
+
+        const post = {
+            author: author,
+            content: content,
+            timestamp: new Date(timestamp)
         }
-    })
+
+        await posts.insertOne(post)
+
+        res.json({
+            success: true
+        })
+    } catch (err) {
+        console.error(err)
+        res.json({
+            success: false
+        })
+    }
 })
 
 app.listen(PORT, () => {
     console.log(`App listening at port ${PORT}`)
 })
 
-// close database
-db.close()
+process.on('exit', () => {
+    client.close();
+})
