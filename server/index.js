@@ -1,5 +1,6 @@
 const express = require('express')
 const mongodb = require('mongodb')
+const bson = require('bson')
 
 // config environment variables
 require('dotenv').config();
