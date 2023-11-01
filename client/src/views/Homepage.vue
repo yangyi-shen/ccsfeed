@@ -1,5 +1,4 @@
 <script setup>
-import Header from '../components/Header.vue'
 import NewPost from '../components/NewPost.vue'
 import Post from '../components/Post.vue'
 
@@ -17,11 +16,10 @@ getFeed()
 </script>
 
 <template>
-    <Header />
-    <main>
+    <div class="content">
         <NewPost :newpost="getFeed()" />
         <Post v-for="item in feed" :author="item.author" :content="item.content" :timestamp="item.timestamp" />
-    </main>
+    </div>
 </template>
 
 <style scoped>
