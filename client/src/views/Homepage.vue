@@ -18,7 +18,7 @@ getFeed()
 <template>
     <div class="content">
         <NewPost :newpost="getFeed()" />
-        <Post v-for="item in feed" :author="item.author" :content="item.content" :timestamp="item.timestamp" />
+        <Post v-for="item in feed" :author="item.author" :content="item.content" :timestamp="item.timestamp" :image="item.image" />
     </div>
 </template>
 

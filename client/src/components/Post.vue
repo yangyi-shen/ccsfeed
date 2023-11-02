@@ -1,9 +1,14 @@
 <script setup>
+import { ref } from 'vue'
 const props = defineProps({
     author: String,
     content: String,
-    timestamp: String
+    timestamp: String,
+    image: Object
 })
+
+// create placeholder for attached image url
+const imageurl = ref()
 
 // formate timestamp into easily readable format
 const date = new Date(props.timestamp)
@@ -17,6 +22,12 @@ const options = {
   hour12: true
 };
 const formattedTime = date.toLocaleString('en-US', options);
+
+console.log(props.image)
+
+if (props.image) {
+    imageurl.value = URL.createObjectURL(props.image)
+}
 </script>
 
 <template>
@@ -25,6 +36,7 @@ const formattedTime = date.toLocaleString('en-US', options);
             <p class="author">{{ author }}</p>
             <p class="timestamp">{{ formattedTime }}</p>
             <p class="content">{{ content }}</p>
+            <img v-if="imageurl" class="image" :src="imageurl">
         </div>
     </div>
 </template>
@@ -50,5 +62,10 @@ const formattedTime = date.toLocaleString('en-US', options);
     color: grey;
     margin: 0px;
     margin-top: 5px;
+}
+
+.image {
+    height: 100px;
+    object-fit: scale-down;
 }
 </style>
