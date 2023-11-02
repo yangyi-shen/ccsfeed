@@ -15,7 +15,7 @@ const postSchema = new mongoose.Schema({
     author: String,
     content: String,
     timestamp: Date,
-    image: File
+    image: Object
 })
 
 const Post = mongoose.model('Post', postSchema)
