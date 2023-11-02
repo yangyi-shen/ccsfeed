@@ -18,6 +18,7 @@
 <style scoped>
 .sidebar {
     width: 300px;
+    flex-shrink: 0;
 }
 
 .announcement {

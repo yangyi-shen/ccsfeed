@@ -20,16 +20,21 @@ const formattedTime = date.toLocaleString('en-US', options);
 </script>
 
 <template>
-    <div class="post">
-        <p class="author">{{ author }}</p>
-        <p class="timestamp">{{ formattedTime }}</p>
-        <p class="content">{{ content }}</p>
+    <div class="post-wrapper">
+        <div class="post">
+            <p class="author">{{ author }}</p>
+            <p class="timestamp">{{ formattedTime }}</p>
+            <p class="content">{{ content }}</p>
+        </div>
     </div>
 </template>
 
 <style scoped>
+.post-wrapper {
+    width: 100%;
+}
+
 .post {
-    width: 600px;
     background: rgb(228, 228, 228);
     border-radius: 5px;
     padding: 10px;

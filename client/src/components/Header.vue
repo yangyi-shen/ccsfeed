@@ -10,7 +10,7 @@
 header {
     box-shadow: 0px 5px 5px rgb(219, 218, 218);
     display: flex;
-    padding: 20px 50px;
+    padding: 20px 300px;
 }
 
 .logo {

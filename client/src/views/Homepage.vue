@@ -23,7 +23,7 @@ getFeed()
 </template>
 
 <style scoped>
-main {
-    padding: 50px;
+.content {
+    width: 100%;
 }
 </style>
