@@ -18,7 +18,7 @@ async function createPost() {
   })
   console.log(image.value)
 
-  content.value, image.value = null
+  content.value, image.value, imageurl.value = null
 }
 
 function selectImage() {
