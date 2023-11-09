@@ -14,8 +14,7 @@ mongoose.connect(URI)
 const postSchema = new mongoose.Schema({
     author: String,
     content: String,
-    timestamp: Date,
-    image: Object
+    timestamp: Date
 })
 
 const Post = mongoose.model('Post', postSchema)
@@ -56,14 +55,12 @@ app.post('/newpost', async (req, res) => {
         const author = req.body.author
         const content = req.body.content
         const timestamp = req.body.timestamp
-        const image = req.body.image
 
         // create post object using parameters
         const post = new Post({
             author: author,
             content: content,
-            timestamp: new Date(timestamp),
-            image: image
+            timestamp: new Date(timestamp)
         })
 
         // save post into database
