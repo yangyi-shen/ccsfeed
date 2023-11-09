@@ -3,8 +3,8 @@ import axios from "axios"
 
 import { ref } from "vue"
 
-const author = ref()
-const content = ref()
+const author = ref('')
+const content = ref('')
 
 async function createPost() {
   const response = await axios.post("https://ccsfeed-server.vercel.app/newpost", {
@@ -13,8 +13,7 @@ async function createPost() {
     timestamp: new Date(),
   })
 
-  console.log('this should be working')
-  author.value, content.value = ''
+  content.value = ''
 }
 </script>
 
