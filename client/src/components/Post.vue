@@ -23,8 +23,6 @@ const options = {
 };
 const formattedTime = date.toLocaleString('en-US', options);
 
-console.log(props.image)
-
 if (props.image) {
     imageurl.value = URL.createObjectURL(props.image)
 }
