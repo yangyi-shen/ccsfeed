@@ -40,17 +40,56 @@ app.get('/', (req, res) => {
     res.send('Welcome to the backend for cssfeed!')
 })
 
+// user authentication APIs
+app.post('/register', async (req, res) => {
+    try {
+        const { username, password } = req.body
+        const encryptedPassword = await bcrypt.hash(password)
+
+        // check if user already exists
+        const user = User.findOne({ 
+            username, 
+            password: encryptedPassword
+        })
+
+        if (!user) {
+            return res.json({
+                success: false
+            })
+        }
+
+        // create user
+        const newUser = new User({
+            username: username,
+            password: password
+        })
+        await newUser.save()
+
+        // return success message
+        return res.json({
+            success: true
+        })
+        
+    } catch (err) {
+        console.error(err)
+        return res.json({
+            success: false
+        })
+    }
+})
+
+// content management APIs
 app.get('/feed', async (req, res) => {
     try {
         const feed = await Post.find({})
 
-        res.json({
+        return res.json({
             success: true,
             feed: feed
         })
     } catch (err) {
         console.error(err)
-        res.json({
+        return res.json({
             success: false
         })
     }
@@ -58,9 +97,7 @@ app.get('/feed', async (req, res) => {
 
 app.post('/newpost', async (req, res) => {
     try {
-        const author = req.body.author
-        const content = req.body.content
-        const timestamp = req.body.timestamp
+        const { author, content, timestamp } = req.body
 
         // create post object using parameters
         const post = new Post({
@@ -72,12 +109,12 @@ app.post('/newpost', async (req, res) => {
         // save post into database
         await post.save()
 
-        res.json({
+        return res.json({
             success: true
         })
     } catch (err) {
         console.error(err)
-        res.json({
+        return res.json({
             success: false
         })
     }
