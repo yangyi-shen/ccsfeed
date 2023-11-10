@@ -17,7 +17,13 @@ const postSchema = new mongoose.Schema({
     timestamp: Date
 })
 
-const Post = mongoose.model('Post', postSchema)
+const userSchema = new mongoose.Schema({
+    username: String,
+    password: String
+})
+
+const Post = mongoose.model('Post', postSchema, 'posts')
+const User = mongoose.model('User', userSchema, 'users')
 
 // allow http requests from any source
 app.use((req, res, next) => {
