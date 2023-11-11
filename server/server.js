@@ -42,6 +42,40 @@ app.get('/', (req, res) => {
 })
 
 // user authentication APIs
+app.get('/login', async (req, res) => {
+    try {
+        const { username, password } = req.query
+
+        const user = await User.findOne({ username })
+
+        // check if user exists
+        if (user) {
+            return res.json({
+                success: false
+            })
+        }
+
+        // check if passwords match
+        const passwordLegit = bcrypt.compare(password, user.password)
+
+        if (!passwordLegit) {
+            return res.json({
+                success: false
+            })
+        }
+
+        // if everything ok, return success message!
+        return res.json({
+            success: true
+        })
+    } catch (err) {
+        console.error(err)
+        return res.json({
+            success: false
+        })
+    }
+})
+
 app.post('/register', async (req, res) => {
     try {
         const { username, password } = req.body
@@ -50,7 +84,7 @@ app.post('/register', async (req, res) => {
         // check if user already exists
         const user = await User.findOne({ username })
 
-        if (user !== null) {
+        if (user) {
             return res.json({
                 success: false
             })
