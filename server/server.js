@@ -49,7 +49,7 @@ app.get('/login', async (req, res) => {
         const user = await User.findOne({ username })
 
         // check if user exists
-        if (user) {
+        if (!user) {
             return res.json({
                 success: false
             })
