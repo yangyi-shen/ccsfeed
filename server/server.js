@@ -1,5 +1,6 @@
 const express = require('express')
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 
 // config environment variables
 require('dotenv').config();
@@ -44,32 +45,28 @@ app.get('/', (req, res) => {
 app.post('/register', async (req, res) => {
     try {
         const { username, password } = req.body
-        const encryptedPassword = await bcrypt.hash(password)
+        const encryptedPassword = await bcrypt.hash(password, 10)
 
         // check if user already exists
-        const user = User.findOne({ 
-            username, 
-            password: encryptedPassword
-        })
+        const user = await User.findOne({ username })
 
-        if (!user) {
+        if (user !== null) {
             return res.json({
                 success: false
             })
+        } else {
+            // create user
+            const newUser = new User({
+                username: username,
+                password: encryptedPassword
+            })
+            await newUser.save()
+
+            // return success message
+            return res.json({
+                success: true
+            })
         }
-
-        // create user
-        const newUser = new User({
-            username: username,
-            password: password
-        })
-        await newUser.save()
-
-        // return success message
-        return res.json({
-            success: true
-        })
-        
     } catch (err) {
         console.error(err)
         return res.json({
