@@ -13,7 +13,7 @@
         </div>
         <div class="announcement">
             <h2 class="announcement-title">Known bug</h2>
-            <p>After you log in, the header still shows the login and register buttons. I'm working on fixing this.</p>
+            <p>After you log in, the header still shows the login and register buttons. I'm working on fixing this. Meanwhile, if you want to sign out you can just reload the page and it'll render correctly.</p>
         </div>
         <p>Want to see the code for this website? Visit the Github repo <a href="https://github.com/Yang-Yi-Shen/ccsfeed" target="_blank">here</a>.</p>
     </aside>
