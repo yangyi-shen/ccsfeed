@@ -10,7 +10,7 @@ const message = ref(false)
 const error = ref(false)
 
 async function login() {
-    const response = await axios.get(`http://localhost:6900/login?username=${username.value}&password=${password.value}`)
+    const response = await axios.get(`https://ccsfeed-server.vercel.app/login?username=${username.value}&password=${password.value}`)
     console.log(response)
 
     const success = response.data.success

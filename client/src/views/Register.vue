@@ -10,7 +10,7 @@ const message = ref(false)
 const error = ref(false)
 
 async function register() {
-    const response = await axios.post('http://localhost:6900/register', {
+    const response = await axios.post('https://ccsfeed-server.vercel.app/register', {
         username: username.value,
         password: password.value
     })
