@@ -16,6 +16,7 @@ async function login() {
     const success = response.data.success
     if (success) {
         localStorage.setItem('signedin', true)
+        localStorage.setItem('username', username.value)
         router.push('/')
     } else {
         error.value = !success

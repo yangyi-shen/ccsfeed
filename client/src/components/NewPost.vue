@@ -3,7 +3,8 @@ import axios from "axios"
 
 import { ref } from "vue"
 
-const author = ref('')
+const signedIn = localStorage.getItem('signedin')
+const author = ref(localStorage.getItem('username') || '')
 const content = ref('')
 
 async function createPost() {
@@ -20,8 +21,8 @@ async function createPost() {
 <template>
   <div class="newpost-wrapper">
     <form @submit.prevent="createPost(), $emit('newpost')" class="newpost-form">
-      <label class="input-label">Name</label>
-      <input class="author" v-model="author" />
+      <label v-if="!signedIn" class="input-label">Name</label>
+      <input v-if="!signedIn" class="author" v-model="author" />
       <label class="input-label">Content</label>
       <input class="content" v-model="content" />
       <button class="submit-btn" type="submit">Create post</button>
