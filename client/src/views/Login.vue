@@ -9,7 +9,7 @@ const router = useRouter()
 const message = ref(false)
 const error = ref(false)
 
-async function register() {
+async function login() {
     const response = await axios.get(`http://localhost:6900/login?username=${username.value}&password=${password.value}`)
     console.log(response)
 
@@ -24,20 +24,39 @@ async function register() {
 </script>
 
 <template>
-    <form class="form" @submit.prevent="register">
+    <form class="form" @submit.prevent="login">
+        <h1 class="title">Sign in</h1>
         <label class="username-label">Username</label>
         <input class="username" v-model="username">
         <label class="password-label">Password</label>
         <input class="password" v-model="password">
-        <button class="submit-btn" type="submit">Register</button>
+        <button class="submit-btn" type="submit">Login</button>
         <p class="error" v-if="error" >Credentials incorrect</p>
     </form>
 </template>
 
 <style scoped>
 form {
+    width: 250px;
     display: flex;
     flex-direction: column;
+}
+
+.title {
+    margin: 0px;
+    margin-bottom: 20px;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input {
+    padding: 7px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
 .username {
@@ -45,7 +64,12 @@ form {
 }
 
 .submit-btn {
-    margin-top: 10px;
+    padding: 10px 0px;
+    border: none;
+    border-radius: 3px;
+    margin: 0px 0px 10px;
+    background-color: var(--compass-blue);
+    color: white;
 }
 
 .error {

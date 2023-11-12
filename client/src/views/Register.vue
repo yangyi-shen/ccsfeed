@@ -27,6 +27,7 @@ async function register() {
 
 <template>
     <form class="form" @submit.prevent="register">
+        <h1 class="title">Create an account</h1>
         <label class="username-label">Username</label>
         <input class="username" v-model="username">
         <label class="password-label">Password</label>
@@ -38,8 +39,26 @@ async function register() {
 
 <style scoped>
 form {
+    width: 250px;
     display: flex;
     flex-direction: column;
+}
+
+.title {
+    margin: 0px;
+    margin-bottom: 20px;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input {
+    padding: 7px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
 .username {
@@ -47,7 +66,12 @@ form {
 }
 
 .submit-btn {
-    margin-top: 10px;
+    padding: 10px 0px;
+    border: none;
+    border-radius: 3px;
+    margin: 0px 0px 10px;
+    background-color: var(--compass-blue);
+    color: white;
 }
 
 .error {
