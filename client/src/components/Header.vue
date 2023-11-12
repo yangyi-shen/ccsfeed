@@ -13,7 +13,7 @@ function signOut() {
         <RouterLink to="/" class="logo-link"><h1 class="logo">🧭 css<span class="blue-text">feed</span></h1></RouterLink>
         <nav v-if="!signedIn" class="menu">
             <RouterLink to="/login" class="menu-link">Login</RouterLink>
-            <RouterLink to="/register" class="menu-link">register</RouterLink>
+            <RouterLink to="/register" class="menu-link">Register</RouterLink>
         </nav>
         <nav v-if="signedIn" class="menu">
             <a href="/" class="menu-link" @click="signOut">Sign out</a>
