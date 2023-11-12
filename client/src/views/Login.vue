@@ -30,7 +30,7 @@ async function register() {
         <label class="password-label">Password</label>
         <input class="password" v-model="password">
         <button class="submit-btn" type="submit">Register</button>
-        <p class="error" v-if="error">Credentials incorrect</p>
+        <p class="error" v-if="error" >Credentials incorrect</p>
     </form>
 </template>
 

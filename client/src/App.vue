@@ -1,14 +1,20 @@
 <script setup>
-import { RouterView } from 'vue-router'
+import { RouterView, useRouter } from 'vue-router'
 import Header from './components/Header.vue'
 import Sidebar from './components/Sidebar.vue'
+
+const router = useRouter()
+
+function refresh() {
+    router.go()
+}
 </script>
 
 <template>
     <Header />
     <main>
         <Sidebar />
-        <RouterView />
+        <RouterView @signin="refresh" />
     </main>
 </template>
 
