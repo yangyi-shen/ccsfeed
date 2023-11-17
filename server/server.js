@@ -20,7 +20,11 @@ const upload = multer({ storage: storage })
 const postSchema = new mongoose.Schema({
     author: String,
     content: String,
-    timestamp: Date
+    timestamp: Date,
+    image: {
+        data: Buffer,
+        type: String
+    }
 })
 
 const userSchema = new mongoose.Schema({
@@ -142,11 +146,15 @@ app.post('/newpost', upload.single('image'), async (req, res) => {
         const post = new Post({
             author: author,
             content: content,
-            timestamp: new Date(timestamp)
+            timestamp: new Date(timestamp),
+            image: {
+                data: buffer,
+                type: mimetype
+            }
         })
 
         // save post into database
-        // await post.save()
+        await post.save()
 
         return res.json({
             success: true
