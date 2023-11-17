@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 const multer = require('multer')
 
 // config environment variables
-require('dotenv').config();
+require('dotenv').config()
 
 const app = express()
 const PORT = 6900
@@ -12,6 +12,10 @@ const PORT = 6900
 // connect to mongodb
 const URI = process.env.MONGODB_URI
 mongoose.connect(URI)
+
+// set up image file processing
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage })
 
 const postSchema = new mongoose.Schema({
     author: String,
@@ -127,9 +131,12 @@ app.get('/feed', async (req, res) => {
     }
 })
 
-app.post('/newpost', async (req, res) => {
+app.post('/newpost', upload.single('image'), async (req, res) => {
     try {
         const { author, content, timestamp } = req.body
+        const { buffer, mimetype } = req.file
+
+        console.log(buffer, mimetype)
 
         // create post object using parameters
         const post = new Post({
@@ -139,7 +146,7 @@ app.post('/newpost', async (req, res) => {
         })
 
         // save post into database
-        await post.save()
+        // await post.save()
 
         return res.json({
             success: true
