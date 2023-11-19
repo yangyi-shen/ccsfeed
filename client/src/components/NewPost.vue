@@ -15,7 +15,7 @@ async function createPost() {
   formData.append("timestamp", new Date())
   formData.append("image", image.value)
 
-  const response = await axios.post("http://localhost:6900/newpost", formData);
+  const response = await axios.post("https://ccsfeed-server.vercel.app/newpost", formData);
 
   content.value, image.value = "";
 }
