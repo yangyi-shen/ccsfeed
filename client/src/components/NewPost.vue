@@ -1,20 +1,31 @@
 <script setup>
-import axios from "axios"
+import axios from "axios";
 
-import { ref } from "vue"
+import { ref } from "vue";
 
-const signedIn = localStorage.getItem('signedin')
-const author = ref(localStorage.getItem('username') || '')
-const content = ref('')
+const signedIn = localStorage.getItem("signedin");
+const author = ref(localStorage.getItem("username") || "");
+const content = ref("");
+const image = ref();
 
 async function createPost() {
-  const response = await axios.post("https://ccsfeed-server.vercel.app/newpost", {
-    author: author.value,
-    content: content.value,
-    timestamp: new Date(),
-  })
+  const formData = new FormData();
+  formData.append("author", author.value)
+  formData.append("content", content.value)
+  formData.append("timestamp", new Date())
+  formData.append("image", image.value)
 
-  content.value = ''
+  const response = await axios.post("http://localhost:6900/newpost", formData);
+
+  content.value, image.value = "";
+}
+
+// update value of image ref
+function uploadImage(event) {
+  const file = event.target.files[0];
+  if (file) {
+    image.value = file;
+  }
 }
 </script>
 
@@ -25,6 +36,7 @@ async function createPost() {
       <input v-if="!signedIn" class="author" v-model="author" />
       <label class="input-label">Content</label>
       <input class="content" v-model="content" />
+      <input type="file" accept="image/*" @change="uploadImage" />
       <button class="submit-btn" type="submit">Create post</button>
     </form>
   </div>
