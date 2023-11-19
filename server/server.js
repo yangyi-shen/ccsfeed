@@ -139,7 +139,8 @@ app.get('/feed', async (req, res) => {
 app.post('/newpost', upload.single('image'), async (req, res) => {
     try {
         const { author, content, timestamp } = req.body
-        const { buffer, mimetype } = req.file
+
+        const { buffer, mimetype } = req.file || [ null, null ]
 
         // create post object using parameters
         const post = new Post({
