@@ -22,8 +22,9 @@ const postSchema = new mongoose.Schema({
     content: String,
     timestamp: Date,
     image: {
-        data: Buffer,
-        type: String
+        buffer: Buffer,
+        mimetype: String,
+        type: Object
     }
 })
 
@@ -140,16 +141,14 @@ app.post('/newpost', upload.single('image'), async (req, res) => {
         const { author, content, timestamp } = req.body
         const { buffer, mimetype } = req.file
 
-        console.log(buffer, mimetype)
-
         // create post object using parameters
         const post = new Post({
             author: author,
             content: content,
             timestamp: new Date(timestamp),
             image: {
-                data: buffer,
-                type: mimetype
+                buffer: buffer,
+                mimetype: mimetype
             }
         })
 
