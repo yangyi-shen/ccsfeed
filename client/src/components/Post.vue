@@ -24,7 +24,6 @@ const formattedTime = date.toLocaleString('en-US', options);
 
 // if image exists, create data url
 if (props.image && props.image.buffer) {
-    console.log(props.image)
     const { buffer, mimetype } = props.image
     const base64Image = buffer.toString("base64")
     imageurl.value = `data:${mimetype};base64,${base64Image}`
