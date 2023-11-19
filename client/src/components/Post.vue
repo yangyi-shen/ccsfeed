@@ -6,9 +6,8 @@ const props = defineProps({
     timestamp: String,
     image: Object
 })
-
 // create placeholder for attached image url
-const imageurl = ref()
+const imageurl = ref(null)
 
 // formate timestamp into easily readable format
 const date = new Date(props.timestamp)
@@ -23,8 +22,12 @@ const options = {
 };
 const formattedTime = date.toLocaleString('en-US', options);
 
-if (props.image) {
-    imageurl.value = URL.createObjectURL(props.image)
+// if image exists, create data url
+if (props.image && props.image.buffer) {
+    console.log(props.image)
+    const { buffer, mimetype } = props.image
+    const base64Image = buffer.toString("base64")
+    imageurl.value = `data:${mimetype};base64,${base64Image}`
 }
 </script>
 
