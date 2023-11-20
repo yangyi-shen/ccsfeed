@@ -122,7 +122,7 @@ app.post('/register', async (req, res) => {
 // content management APIs
 app.get('/feed', async (req, res) => {
     try {
-        const feed = await Post.find({})
+        const feed = await Post.find({}).sort({ timestamp: -1 }).limit(40)
 
         return res.json({
             success: true,
