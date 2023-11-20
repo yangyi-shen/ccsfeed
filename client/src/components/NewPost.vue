@@ -9,15 +9,18 @@ const content = ref("");
 const image = ref();
 
 async function createPost() {
+  // attach nessecary info to api request
   const formData = new FormData();
   formData.append("author", author.value)
   formData.append("content", content.value)
   formData.append("timestamp", new Date())
   formData.append("image", image.value)
 
-  const response = await axios.post("https://ccsfeed-server.vercel.app/newpost", formData);
+  // clear fields
+  content.value = ''
+  image.value = ''
 
-  content.value, image.value = "";
+  const response = await axios.post("https://ccsfeed-server.vercel.app/newpost", formData);
 }
 
 // update value of image ref
