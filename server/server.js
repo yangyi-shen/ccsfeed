@@ -6,6 +6,9 @@ const multer = require('multer')
 // config environment variables
 require('dotenv').config()
 
+// remove mongoose warning about 6.10.1 being deprecated
+mongoose.set('strictQuery', false);
+
 const app = express()
 const PORT = 6900
 
