@@ -6,6 +6,8 @@
             <h2 class="faq-title">FAQ</h2>
             <p class="question">Q: Why does this site look so ugly?</p>
             <p class="answer">A: Web development takes a long time and I only had 4 hours, alright?</p>
+            <p class="question">Q: Why do the posts take so long to load?</p>
+            <p class="answer">A: Do you think it still would be slow if I knew the answer?</p>
             <p class="question">Q: Omigosh Yang you're so awesome for making this on such short notice.</p>
             <p class="answer">A: I know, right? If we ever meet you can buy me a coffee.</p>
         </div>
