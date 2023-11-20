@@ -9,7 +9,7 @@ const feed = ref()
 
 async function getFeed() {
     const response = await axios.get('https://ccsfeed-server.vercel.app/feed')
-    feed.value = response.data.feed.reverse()
+    feed.value = response.data.feed
 }
 
 getFeed()
