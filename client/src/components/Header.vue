@@ -2,6 +2,7 @@
 import { RouterLink } from 'vue-router'
 
 const signedIn = localStorage.getItem('signedin')
+const username = localStorage.getItem('username')
 
 function signOut() {
     localStorage.clear()
@@ -16,6 +17,7 @@ function signOut() {
             <RouterLink to="/register" class="menu-link">Register</RouterLink>
         </nav>
         <nav v-if="signedIn" class="menu">
+            <p class="username-text">Signed in as "<span class="username blue-text">{{ username }}</span>"</p>
             <a href="/" class="menu-link" @click="signOut">Sign out</a>
         </nav>
     </header>
@@ -48,8 +50,17 @@ nav {
     gap: 20px;
 }
 
+.menu {
+    display: flex;
+    align-items: center;
+}
+
 .menu-link {
     text-decoration: none;
     color: var(--compass-blue);
+}
+
+.username, .username-text {
+    margin: 0px;
 }
 </style>
