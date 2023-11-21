@@ -3,8 +3,6 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const multer = require('multer')
 
-const feed = require('./api/feed.js');
-
 // config environment variables
 require('dotenv').config()
 
@@ -126,7 +124,19 @@ app.post('/register', async (req, res) => {
 
 // content management APIs
 app.get('/feed', async (req, res) => {
-    feed(req, res)
+    try {
+        const feed = await Post.find({}).sort({ timestamp: -1 }).limit(40)
+
+        return res.json({
+            success: true,
+            feed: feed
+        })
+    } catch (err) {
+        console.error(err)
+        return res.json({
+            success: false
+        })
+    }
 })
 
 app.post('/newpost', upload.single('image'), async (req, res) => {
