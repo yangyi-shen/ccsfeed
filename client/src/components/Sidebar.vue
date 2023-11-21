@@ -12,6 +12,10 @@
             <p class="answer">A: I know, right? If we ever meet you can buy me a coffee.</p>
         </div>
         <div class="announcement">
+            <h2 class="announcement-title">Apologies for yesterday</h2>
+            <p>Turns out the way I'm storing images makes getting the feed so slow the service I'm using to host this thought it couldn't connect to the server and gave up before the data could be sent.</p>
+        </div>
+        <div class="announcement">
             <h2 class="announcement-title">Known bug</h2>
             <p>After you log in, the header still shows the login and register buttons. I'm working on fixing this. Meanwhile, if you want to sign out you can just reload the page and it'll render correctly.</p>
         </div>
