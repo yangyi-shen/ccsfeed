@@ -1,13 +1,19 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const bcrypt = require('bcryptjs')
-const multer = require('multer')
+import express from 'express'
+import mongoose from 'mongoose'
+import bcrypt from 'bcryptjs'
+import multer from 'multer'
+import dotenv from 'dotenv'
+
+// for image processing
+import imagemin from 'imagemin'
+import imageminMozjpeg from 'imagemin-mozjpeg'
+import imageminPngquant from 'imagemin-pngquant'
 
 // config environment variables
-require('dotenv').config()
+dotenv.config()
 
 // remove mongoose warning about 6.10.1 being deprecated
-mongoose.set('strictQuery', false);
+mongoose.set('strictQuery', false)
 
 const app = express()
 const PORT = 6900
@@ -45,10 +51,10 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     next()
-});
+})
 
 // parse data from api requests into json form
-app.use(express.json());
+app.use(express.json())
 
 app.get('/', (req, res) => {
     res.send('Welcome to the backend for cssfeed!')
@@ -143,29 +149,58 @@ app.post('/newpost', upload.single('image'), async (req, res) => {
     try {
         const { author, content, timestamp } = req.body
 
-        const { buffer, mimetype } = req.file || [ null, null ]
+        const { buffer, mimetype } = req.file || [null, null]
 
-        // create post object using parameters
-        const post = new Post({
-            author: author,
-            content: content,
-            timestamp: new Date(timestamp),
-            image: {
-                buffer: buffer,
-                mimetype: mimetype
-            }
-        })
+        // check if file is an image
+        if (buffer && mimetype.startsWith('image')) {
+            // compress buffer
+            const compressedBuffer = await imagemin.buffer(buffer, {
+                plugins: [
+                    imageminMozjpeg({ quality: 80 }), // Adjust quality as needed
+                    imageminPngquant({ quality: [0.6, 0.8] }), // Adjust quality as needed
+                ],
+            })
 
-        // save post into database
-        await post.save()
+            // create post object using parameters
+            const post = new Post({
+                author: author,
+                content: content,
+                timestamp: new Date(timestamp),
+                image: {
+                    buffer: compressedBuffer,
+                    mimetype: mimetype,
+                },
+            })
 
-        return res.json({
-            success: true
-        })
+            // save post into the database
+            await post.save()
+
+            return res.json({
+                success: true,
+            })
+        } else {
+            // Handle the case when no image is uploaded
+            const post = new Post({
+                author: author,
+                content: content,
+                timestamp: new Date(timestamp),
+                image: {
+                    buffer: buffer,
+                    mimetype: mimetype
+                }
+            })
+
+            // save post into the database
+            await post.save()
+
+            return res.json({
+                success: true,
+            })
+        }
     } catch (err) {
         console.error(err)
         return res.json({
-            success: false
+            success: false,
         })
     }
 })
