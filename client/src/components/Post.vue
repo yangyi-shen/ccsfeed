@@ -3,11 +3,8 @@ import { ref } from 'vue'
 const props = defineProps({
     author: String,
     content: String,
-    timestamp: String,
-    image: Object
+    timestamp: String
 })
-// create placeholder for attached image url
-const imageurl = ref(null)
 
 // formate timestamp into easily readable format
 const date = new Date(props.timestamp)
@@ -20,14 +17,7 @@ const options = {
   minute: '2-digit',
   hour12: true
 };
-const formattedTime = date.toLocaleString('en-US', options);
-
-// if image exists, create data url
-if (props.image && props.image.buffer) {
-    const { buffer, mimetype } = props.image
-    const base64Image = buffer.toString("base64")
-    imageurl.value = `data:${mimetype};base64,${base64Image}`
-}
+const formattedTime = date.toLocaleString('en-US', options)
 </script>
 
 <template>
@@ -36,7 +26,6 @@ if (props.image && props.image.buffer) {
             <p class="author">{{ author }}</p>
             <p class="timestamp">{{ formattedTime }}</p>
             <p class="content">{{ content }}</p>
-            <img v-if="imageurl" class="image" :src="imageurl">
         </div>
     </div>
 </template>
