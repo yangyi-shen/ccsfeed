@@ -1,16 +1,9 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import bcrypt from 'bcryptjs'
-import multer from 'multer'
-import dotenv from 'dotenv'
-
-// for image processing
-import imagemin from 'imagemin'
-import imageminMozjpeg from 'imagemin-mozjpeg'
-import imageminPngquant from 'imagemin-pngquant'
+const express = require('express')
+const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
 
 // config environment variables
-dotenv.config()
+require('dotenv').config()
 
 // remove mongoose warning about 6.10.1 being deprecated
 mongoose.set('strictQuery', false)
@@ -22,19 +15,10 @@ const PORT = 6900
 const URI = process.env.MONGODB_URI
 mongoose.connect(URI)
 
-// set up image file processing
-const storage = multer.memoryStorage()
-const upload = multer({ storage: storage })
-
 const postSchema = new mongoose.Schema({
     author: String,
     content: String,
-    timestamp: Date,
-    image: {
-        buffer: Buffer,
-        mimetype: String,
-        type: Object
-    }
+    timestamp: Date
 })
 
 const userSchema = new mongoose.Schema({
@@ -145,62 +129,27 @@ app.get('/feed', async (req, res) => {
     }
 })
 
-app.post('/newpost', upload.single('image'), async (req, res) => {
+app.post('/newpost', async (req, res) => {
     try {
         const { author, content, timestamp } = req.body
 
-        const { buffer, mimetype } = req.file || [null, null]
+        // Handle the case when no image is uploaded
+        const post = new Post({
+            author: author,
+            content: content,
+            timestamp: new Date(timestamp)
+        })
 
-        // check if file is an image
-        if (buffer && mimetype.startsWith('image')) {
-            // compress buffer
-            const compressedBuffer = await imagemin.buffer(buffer, {
-                plugins: [
-                    imageminMozjpeg({ quality: 80 }), // Adjust quality as needed
-                    imageminPngquant({ quality: [0.6, 0.8] }), // Adjust quality as needed
-                ],
-            })
+        // save post into the database
+        await post.save()
 
-            // create post object using parameters
-            const post = new Post({
-                author: author,
-                content: content,
-                timestamp: new Date(timestamp),
-                image: {
-                    buffer: compressedBuffer,
-                    mimetype: mimetype,
-                },
-            })
-
-            // save post into the database
-            await post.save()
-
-            return res.json({
-                success: true,
-            })
-        } else {
-            // Handle the case when no image is uploaded
-            const post = new Post({
-                author: author,
-                content: content,
-                timestamp: new Date(timestamp),
-                image: {
-                    buffer: buffer,
-                    mimetype: mimetype
-                }
-            })
-
-            // save post into the database
-            await post.save()
-
-            return res.json({
-                success: true,
-            })
-        }
+        return res.json({
+            success: true,
+        })
     } catch (err) {
         console.error(err)
         return res.json({
-            success: false,
+            success: false
         })
     }
 })
