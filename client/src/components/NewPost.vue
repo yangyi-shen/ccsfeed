@@ -7,16 +7,13 @@ const author = ref(localStorage.getItem("username") || "")
 const content = ref("")
 
 async function createPost() {
-  // attach nessecary info to api request
-  const formData = new FormData()
-  formData.append("author", author.value)
-  formData.append("content", content.value)
-  formData.append("timestamp", new Date())
+  const response = await axios.post("https://ccsfeed-server.vercel.app/newpost", {
+    author: author.value,
+    content: content.value,
+    timestamp: new Date()
+  })
 
-  // clear fields
   content.value = ''
-
-  const response = await axios.post("https://ccsfeed-server.vercel.app/newpost", formData)
 }
 </script>
 
