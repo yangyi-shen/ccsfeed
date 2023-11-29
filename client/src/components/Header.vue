@@ -11,7 +11,7 @@ function signOut() {
 
 <template>
     <header>
-        <RouterLink to="/" class="logo-link"><h1 class="logo">🧭 css<span class="blue-text">feed</span></h1></RouterLink>
+        <RouterLink to="/" class="logo-link"><h1 class="logo">🧭 ccs<span class="blue-text">feed</span></h1></RouterLink>
         <nav v-if="!signedIn" class="menu">
             <RouterLink to="/login" class="menu-link">Login</RouterLink>
             <RouterLink to="/register" class="menu-link">Register</RouterLink>
