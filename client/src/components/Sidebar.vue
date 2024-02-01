@@ -21,7 +21,7 @@
 
 <style scoped>
 .sidebar {
-    width: 300px;
+    width: 280px;
     flex-shrink: 0;
 }
 
