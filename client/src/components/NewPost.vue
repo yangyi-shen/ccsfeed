@@ -61,5 +61,7 @@ input {
   border: none;
   border-radius: 3px;
   margin: 0px 0px 10px;
+
+  font-family: 'Libre Baskerville';
 }
 </style>
