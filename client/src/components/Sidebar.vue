@@ -26,7 +26,7 @@
 }
 
 .faq {
-    background-color: rgb(239, 239, 239);
+    background-color: rgb(230, 230, 230);
     border-radius: 7px;
     padding: 20px;
     margin-bottom: 20px;

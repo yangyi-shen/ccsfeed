@@ -36,7 +36,7 @@ const formattedTime = date.toLocaleString('en-US', options)
 }
 
 .post {
-    background: rgb(228, 228, 228);
+    background: rgb(242, 242, 242);
     border-radius: 5px;
     padding: 10px;
     margin: 10px 0px;
