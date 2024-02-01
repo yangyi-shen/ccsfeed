@@ -50,7 +50,8 @@ const formattedTime = date.toLocaleString('en-US', options)
 .timestamp {
     color: grey;
     margin: 0px;
-    margin-top: 5px;
+    margin-top: 3px;
+    font-size: 12px;
 }
 
 .image {
